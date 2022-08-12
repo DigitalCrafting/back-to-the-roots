@@ -1,0 +1,67 @@
+<div class="container overflow-hidden">
+    <div class="row gy-2">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="accountNameId" class="fw-bold">Account name</label>
+                <p id="accountNameId">
+                    {{ accountDetails?.accountName }}
+                </p>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label for="accountNumberId" class="fw-bold">Account number</label>
+                <p id="accountNumberId">
+                    {{ accountDetails?.accountNumber }}
+                </p>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label for="accountTypeId" class="fw-bold">Account type</label>
+                <p id="accountTypeId">
+                    {{ accountDetails?.type }}
+                </p>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label for="balanceId" class="fw-bold">Balance</label>
+                <p id="balanceId">{{ accountDetails?.currentBalance | currency:'G' }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row gy-4 margin-bottom-2em">
+        <div class="col-3">
+            <button id="backButton"
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="onGoBackClicked()"
+            >Back to list
+            </button>
+        </div>
+        <div class="col-3"></div>
+        <div class="col-3">
+            <button id="ownDepositButton"
+                    type="button"
+                    class="btn btn-primary float-right"
+                    (click)="onMakeOwnDepositClicked()"
+            >Own deposit
+            </button>
+        </div>
+        <div class="col-3">
+            <button id="ownTransferButton"
+                    type="button"
+                    class="btn btn-primary float-right"
+                    (click)="onMakeOwnTransferClicked()"
+            >Own transfer
+            </button>
+        </div>
+    </div>
+    <div class="row gy-4">
+        <div class="col-12">
+            <transactions-history [transactionsHistory]="accountDetails?.transactionsList"></transactions-history>
+        </div>
+    </div>
+</div>
+

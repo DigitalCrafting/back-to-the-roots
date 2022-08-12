@@ -1,0 +1,26 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">To/from account</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Date</th>
+        <th scope="col">Comment</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngIf="transactionsHistory">
+        <ng-container *ngFor="let transaction of transactionsHistory">
+            <tr>
+                <td>{{transaction?.id}}</td>
+                <td>{{transaction?.foreignAccountNumber}}</td>
+                <td [ngClass]="transaction?.amount < 0 ? 'outgoing-transaction' : 'incoming-transaction'">
+                    {{transaction?.amount | currency:'G' }}
+                </td>
+                <td>{{transaction?.date | date}}</td>
+                <td>{{transaction?.description}}</td>
+            </tr>
+        </ng-container>
+    </ng-container>
+    </tbody>
+</table>

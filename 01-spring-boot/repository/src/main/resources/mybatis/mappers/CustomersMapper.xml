@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.digitalcrafting.eregold.repository.customers.CustomersMapper">
+    <resultMap id="CustomerEntityMap"
+               type="org.digitalcrafting.eregold.repository.customers.CustomerEntity">
+        <!-- Mybatis config will map this automatically-->
+    </resultMap>
+
+    <select id="getByEmail" resultMap="CustomerEntityMap" parameterType="java.lang.String">
+        SELECT *
+        FROM customers
+        WHERE email = #{email}
+    </select>
+
+    <select id="getByCustomerId" resultMap="CustomerEntityMap" parameterType="java.lang.String">
+        SELECT *
+        FROM customers
+        WHERE customer_id = #{customerId}
+    </select>
+
+    <insert id="insert" parameterType="org.digitalcrafting.eregold.repository.customers.CustomerEntity">
+        INSERT INTO customers (customer_id,
+                               first_name,
+                               last_name,
+                               email)
+        VALUES (#{customerId},
+                #{firstName},
+                #{lastName},
+                #{email})
+    </insert>
+</mapper>

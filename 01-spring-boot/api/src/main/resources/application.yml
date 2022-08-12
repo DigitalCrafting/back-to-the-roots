@@ -1,0 +1,32 @@
+spring:
+  profiles:
+    active: local
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    jdbc-type-for-null: NULL
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+  mapper-locations: classpath*:/mybatis/mappers/*Mapper.xml
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+spring.datasource:
+  url: jdbc:postgresql://eregold-db:5432/eregold_db
+  username: eregold_user
+  password: eregold_pass
+  driver-class-name:
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+spring.datasource:
+  url: jdbc:postgresql://localhost:2345/eregold_db
+  username: eregold_user
+  password: eregold_pass
+  driver-class-name:

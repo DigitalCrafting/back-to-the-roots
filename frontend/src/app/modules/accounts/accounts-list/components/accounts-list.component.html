@@ -1,0 +1,46 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Account name</th>
+        <th scope="col">Account number</th>
+        <th scope="col">Current balance</th>
+        <th scope="col">Type</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngIf="accountsList">
+        <ng-container *ngFor="let account of accountsList">
+            <tr>
+                <td>{{account?.accountName}}</td>
+                <td>{{account?.accountNumber}}</td>
+                <td>{{account?.currentBalance | currency:'G'}}</td>
+                <td>{{account?.type}}</td>
+                <td>
+                    <button type="button" class="btn btn-outline-secondary"
+                            (click)="onDetailsClicked(account?.accountNumber)">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </td>
+            </tr>
+        </ng-container>
+    </ng-container>
+    </tbody>
+</table>
+
+<button type="button"
+        class="btn btn-secondary mr-2"
+        (click)="onMakeOwnTransferClicked()"
+>Own transfer
+</button>
+<button type="button"
+        class="btn btn-secondary"
+        (click)="onMakeOwnDepositClicked()"
+>Own deposit
+</button>
+<button type="button"
+        class="btn btn-primary float-right"
+        id="addAccountButton"
+        (click)="onAddAccountClicked()"
+>Add account
+</button>

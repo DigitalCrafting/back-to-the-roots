@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.digitalcrafting.eregold.repository.transactions.TransactionsMapper">
+    <resultMap id="TransactionEntityMap"
+               type="org.digitalcrafting.eregold.repository.transactions.TransactionEntity">
+        <!-- Mybatis config will map this automatically-->
+    </resultMap>
+
+    <insert id="insert" parameterType="org.digitalcrafting.eregold.repository.transactions.TransactionEntity">
+        INSERT INTO transactions (id,
+                                  account_number,
+                                  foreign_account_number,
+                                  amount,
+                                  currency,
+                                  date,
+                                  description,
+                                  type)
+        VALUES (#{id},
+                #{accountNumber},
+                #{foreignAccountNumber},
+                #{amount},
+                #{currency},
+                #{date},
+                #{description},
+                #{type})
+    </insert>
+
+    <select id="getByAccountNumber" parameterType="java.lang.String" resultMap="TransactionEntityMap">
+        SELECT * FROM transactions WHERE account_number = #{accountNumber}
+    </select>
+</mapper>

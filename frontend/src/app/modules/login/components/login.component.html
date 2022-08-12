@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="card">
+                <div class="card-body">
+                    <form [formGroup]="formGroup">
+                        <div class="container">
+                            <div class="row gy-2">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="inputUserId">User ID</label>
+                                        <input
+                                                [class.is-invalid]="formGroup.get('userId')?.invalid"
+                                                formControlName="userId"
+                                                type="text"
+                                                class="form-control"
+                                                id="inputUserId"
+                                                placeholder="Enter your ID"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="inputPassword">Password</label>
+                                        <input
+                                                [class.is-invalid]="formGroup.get('password')?.invalid"
+                                                formControlName="password"
+                                                type="password"
+                                                class="form-control"
+                                                id="inputPassword"
+                                                placeholder="Password">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <button type="button"
+                                            class="btn btn-secondary"
+                                            (click)="onRegisterClicked()"
+                                    >Register
+                                    </button>
+                                </div>
+                                <div class="col-6"></div>
+                                <div class="col-3">
+                                    <button type="submit"
+                                            class="btn btn-primary float-right"
+                                            id="loginButton"
+                                            (click)="onLoginClicked()"
+                                            [disabled]="formGroup.invalid"
+                                    >Login
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>

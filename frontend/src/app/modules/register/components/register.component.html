@@ -1,0 +1,99 @@
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="card">
+                <div class="card-body">
+                    <form [formGroup]="formGroup">
+                        <div class="row gy-2">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="inputEmail">Email address</label>
+                                    <input
+                                            [class.is-invalid]="formGroup.get('email').invalid"
+                                            formControlName="email"
+                                            type="email"
+                                            class="form-control"
+                                            id="inputEmail"
+                                            aria-describedby="usernameHelp"
+                                            placeholder="Enter email"
+                                    >
+                                    <small id="usernameHelp" class="form-text text-muted">
+                                        We'll never share your email with anyone else.
+                                    </small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputFirstName">First name</label>
+                                    <input
+                                            [class.is-invalid]="formGroup.get('firstName').invalid"
+                                            formControlName="firstName"
+                                            type="text"
+                                            class="form-control"
+                                            id="inputFirstName"
+                                            placeholder="Enter first name"
+                                    >
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="inputLastName">Last name</label>
+                                    <input
+                                            [class.is-invalid]="formGroup.get('lastName').invalid"
+                                            formControlName="lastName"
+                                            type="text"
+                                            class="form-control"
+                                            id="inputLastName"
+                                            placeholder="Enter last name"
+                                    >
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="inputPassword">Password</label>
+                                    <input
+                                            [class.is-invalid]="formGroup.get('password').invalid"
+                                            formControlName="password"
+                                            type="password"
+                                            class="form-control"
+                                            id="inputPassword"
+                                            placeholder="Enter password">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="inputPasswordCheck">Password</label>
+                                    <input
+                                            [class.is-invalid]="formGroup.get('passwordCheck').invalid"
+                                            formControlName="passwordCheck"
+                                            type="password"
+                                            class="form-control"
+                                            id="inputPasswordCheck"
+                                            placeholder="Re-enter password">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <button type="button"
+                                        id="registerCancelButton"
+                                        class="btn btn-secondary"
+                                        (click)="onCancelClicked()"
+                                >Cancel
+                                </button>
+                            </div>
+                            <div class="col-6"></div>
+                            <div class="col-3">
+                                <button type="submit"
+                                        id="registerButton"
+                                        class="btn btn-primary float-right"
+                                        (click)="onRegisterClicked()"
+                                        [disabled]="formGroup.invalid"
+                                >Register
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>

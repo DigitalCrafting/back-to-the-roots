@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.digitalcrafting.eregold.repository.accounts.AccountsMapper">
+    <resultMap id="AccountEntityMap"
+               type="org.digitalcrafting.eregold.repository.accounts.AccountEntity">
+    </resultMap>
+
+    <select id="getByAccountNumber" parameterType="java.lang.String" resultMap="AccountEntityMap">
+        SELECT *
+        FROM accounts
+        WHERE account_number = #{accountNumber}
+    </select>
+
+    <select id="getAccountsForCustomer" resultMap="AccountEntityMap" parameterType="java.lang.String">
+        SELECT acc.account_number, acc.account_name, acc.current_balance, acc.currency, acc.type
+        FROM accounts AS acc
+                 JOIN customer_accounts AS ca ON acc.account_number = ca.account_number
+        WHERE ca.customer_id = #{customerId}
+    </select>
+
+    <insert id="insertAccount" parameterType="org.digitalcrafting.eregold.repository.accounts.AccountEntity">
+        INSERT INTO accounts (account_number, account_name, current_balance, currency, type)
+        VALUES (#{accountNumber}, #{accountName}, #{currentBalance}, #{currency}, #{type})
+    </insert>
+
+    <insert id="insertCustomerAccount"
+            parameterType="org.digitalcrafting.eregold.repository.accounts.CustomerAccountEntity">
+        INSERT INTO customer_accounts (customer_id, account_number)
+        VALUES (#{customerId}, #{accountNumber})
+    </insert>
+
+    <update id="updateAccountBalance">
+        UPDATE accounts
+        SET current_balance = #{balance}
+        WHERE account_number = #{accountNumber}
+    </update>
+</mapper>

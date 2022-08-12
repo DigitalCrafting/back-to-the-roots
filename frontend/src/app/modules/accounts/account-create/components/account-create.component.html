@@ -1,0 +1,59 @@
+<form [formGroup]="formGroup">
+    <div class="container overflow-hidden">
+        <div class="row gy-2">
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="accountTypeId">Account type</label>
+                    <select id="accountTypeId"
+                            class="form-select"
+                            aria-label="Account type"
+                            formControlName="accountType"
+                    >
+                        <ng-container *ngFor="let option of accountTypeOptions">
+                            <option [value]="option.value">{{ option.display}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="currencyId">Currency</label>
+                    <select id="currencyId" class="form-select" aria-label="Currency" formControlName="currency">
+                        <ng-container *ngFor="let option of currencyOptions">
+                            <option [value]="option.value">{{ option.display}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="accountNameId">Account name</label>
+                    <input
+                            [class.is-invalid]="formGroup.get('accountName')?.invalid"
+                            formControlName="accountName"
+                            type="text"
+                            class="form-control"
+                            id="accountNameId">
+                </div>
+            </div>
+            <div class="col-3">
+                <button type="button"
+                        class="btn btn-secondary"
+                        (click)="onCancelClicked()"
+                >Cancel
+                </button>
+            </div>
+            <div class="col-6"></div>
+            <div class="col-3">
+                <button type="submit"
+                        class="btn btn-primary float-right"
+                        id="addAccountButton"
+                        (click)="onAddClicked()"
+                        [disabled]="formGroup.invalid"
+                >Add
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
