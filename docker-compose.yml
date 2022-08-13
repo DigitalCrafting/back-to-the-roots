@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   eregold-backend:
-    build: ./backend
+    build: ./01-spring-boot
     container_name: eregold-backend
     ports:
       - 8080:8080

@@ -3,7 +3,7 @@ version: "3.7"
 services:
   eregold-backend:
     build:
-      context: ./backend
+      context: ./01-spring-boot
       dockerfile: Dockerfile-complete
     container_name: eregold-backend
     ports:
