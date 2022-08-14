@@ -1,10 +1,10 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="[JavaHttp] Run" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="org.digitalcrafting.eregold.JavaHttpApplication" />
+    <option name="MAIN_CLASS_NAME" value="org.digitalcrafting.eregold.http.JavaHttpApplication" />
     <module name="eregold-java-http" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="org.digitalcrafting.eregold.*" />
+        <option name="PATTERN" value="org.digitalcrafting.eregold.spring.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

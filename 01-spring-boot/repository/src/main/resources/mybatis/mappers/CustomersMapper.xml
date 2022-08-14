@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.digitalcrafting.eregold.repository.customers.CustomersMapper">
+<mapper namespace="org.digitalcrafting.eregold.spring.repository.customers.CustomersMapper">
     <resultMap id="CustomerEntityMap"
-               type="org.digitalcrafting.eregold.repository.customers.CustomerEntity">
+               type="org.digitalcrafting.eregold.spring.repository.customers.CustomerEntity">
         <!-- Mybatis config will map this automatically-->
     </resultMap>
 
@@ -20,7 +20,7 @@
         WHERE customer_id = #{customerId}
     </select>
 
-    <insert id="insert" parameterType="org.digitalcrafting.eregold.repository.customers.CustomerEntity">
+    <insert id="insert" parameterType="org.digitalcrafting.eregold.spring.repository.customers.CustomerEntity">
         INSERT INTO customers (customer_id,
                                first_name,
                                last_name,

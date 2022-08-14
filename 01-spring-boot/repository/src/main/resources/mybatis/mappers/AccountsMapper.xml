@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.digitalcrafting.eregold.repository.accounts.AccountsMapper">
+<mapper namespace="org.digitalcrafting.eregold.spring.repository.accounts.AccountsMapper">
     <resultMap id="AccountEntityMap"
-               type="org.digitalcrafting.eregold.repository.accounts.AccountEntity">
+               type="org.digitalcrafting.eregold.spring.repository.accounts.AccountEntity">
     </resultMap>
 
     <select id="getByAccountNumber" parameterType="java.lang.String" resultMap="AccountEntityMap">
@@ -20,13 +20,13 @@
         WHERE ca.customer_id = #{customerId}
     </select>
 
-    <insert id="insertAccount" parameterType="org.digitalcrafting.eregold.repository.accounts.AccountEntity">
+    <insert id="insertAccount" parameterType="org.digitalcrafting.eregold.spring.repository.accounts.AccountEntity">
         INSERT INTO accounts (account_number, account_name, current_balance, currency, type)
         VALUES (#{accountNumber}, #{accountName}, #{currentBalance}, #{currency}, #{type})
     </insert>
 
     <insert id="insertCustomerAccount"
-            parameterType="org.digitalcrafting.eregold.repository.accounts.CustomerAccountEntity">
+            parameterType="org.digitalcrafting.eregold.spring.repository.accounts.CustomerAccountEntity">
         INSERT INTO customer_accounts (customer_id, account_number)
         VALUES (#{customerId}, #{accountNumber})
     </insert>

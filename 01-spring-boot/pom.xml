@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <version>0.0.1-SNAPSHOT</version>
     <groupId>org.digitalcrafting.eregold</groupId>
-    <artifactId>eregold</artifactId>
+    <artifactId>eregold-spring</artifactId>
     <packaging>pom</packaging>
 
     <modules>
