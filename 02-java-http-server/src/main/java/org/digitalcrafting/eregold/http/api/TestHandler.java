@@ -17,4 +17,12 @@ public class TestHandler extends DCAbstractHandler {
         os.flush();
         exchange.close();
     }
+
+    @Override
+    public void handleOptions(HttpExchange exchange) throws IOException {
+        exchange.getResponseHeaders().set("Allow", "GET");
+        exchange.getResponseHeaders().set("Content-Type", "application/json");
+        exchange.sendResponseHeaders(200, 0);
+        exchange.close();
+    }
 }
