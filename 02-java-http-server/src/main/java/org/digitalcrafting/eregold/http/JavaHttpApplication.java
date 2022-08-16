@@ -1,6 +1,7 @@
 package org.digitalcrafting.eregold.http;
 
 import com.sun.net.httpserver.HttpServer;
+import org.digitalcrafting.eregold.http.api.MybatisHandler;
 import org.digitalcrafting.eregold.http.api.TestHandler;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ public class JavaHttpApplication {
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
         server.createContext("/test", new TestHandler());
+        server.createContext("/db", new MybatisHandler());
 
         server.setExecutor(null);
         server.start();
