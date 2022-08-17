@@ -1,8 +1,10 @@
 package org.digitalcrafting.eregold.http.repository.users;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.digitalcrafting.eregold.http.core.MybatisSqlSessionFactory;
 
+@Slf4j
 public class UsersEntityManager {
     public UserEntity getByUserId(String userId) {
         SqlSession sqlSession = MybatisSqlSessionFactory.get().openSession();
@@ -11,9 +13,10 @@ public class UsersEntityManager {
             UsersMapper usersMapper = sqlSession.getMapper(UsersMapper.class);
             userEntity = usersMapper.getByUserId(userId);
         } catch (Exception e) {
-          // TODO log
+            log.info(e.getMessage());
         } finally {
             sqlSession.close();
+            log.info("Successfully called database");
         }
         return userEntity;
     }
@@ -24,9 +27,10 @@ public class UsersEntityManager {
             UsersMapper usersMapper = sqlSession.getMapper(UsersMapper.class);
             usersMapper.insert(entity);
         } catch (Exception e) {
-            // TODO log
+            log.info(e.getMessage());
         } finally {
             sqlSession.close();
+            log.info("Successfully called database");
         }
     }
 }
