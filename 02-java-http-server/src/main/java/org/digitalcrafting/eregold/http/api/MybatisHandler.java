@@ -2,27 +2,24 @@ package org.digitalcrafting.eregold.http.api;
 
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
-import org.apache.ibatis.session.SqlSession;
 import org.digitalcrafting.eregold.http.core.DCAbstractHandler;
-import org.digitalcrafting.eregold.http.core.MybatisSqlSessionFactory;
 import org.digitalcrafting.eregold.http.repository.users.UserEntity;
-import org.digitalcrafting.eregold.http.repository.users.UsersMapper;
+import org.digitalcrafting.eregold.http.repository.users.UsersEntityManager;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 public class MybatisHandler extends DCAbstractHandler {
+    UsersEntityManager usersEntityManager;
+
+    public MybatisHandler() {
+        usersEntityManager = new UsersEntityManager();
+    }
+
     @Override
     public void handleGet(HttpExchange exchange) throws IOException {
-        SqlSession sqlSession = MybatisSqlSessionFactory.get().openSession();
-        UserEntity userEntity = null;
-        try {
-            UsersMapper usersMapper = sqlSession.getMapper(UsersMapper.class);
-            userEntity = usersMapper.getByUserId("test");
-        } finally {
-            sqlSession.close();
-        }
+        UserEntity userEntity = usersEntityManager.getByUserId("test");
 
         String userJson = new Gson().toJson(userEntity);
 
