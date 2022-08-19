@@ -16,7 +16,6 @@ public class UsersEntityManager {
             log.info(e.getMessage());
         } finally {
             sqlSession.close();
-            log.info("Successfully called database");
         }
         return userEntity;
     }
@@ -26,11 +25,11 @@ public class UsersEntityManager {
         try {
             UsersMapper usersMapper = sqlSession.getMapper(UsersMapper.class);
             usersMapper.insert(entity);
+            sqlSession.commit();
         } catch (Exception e) {
             log.info(e.getMessage());
         } finally {
             sqlSession.close();
-            log.info("Successfully called database");
         }
     }
 }

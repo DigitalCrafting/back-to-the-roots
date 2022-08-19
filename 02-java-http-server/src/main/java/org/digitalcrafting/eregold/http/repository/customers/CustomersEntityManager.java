@@ -1,32 +1,48 @@
-package org.digitalcrafting.eregold.http.repository.transactions;
+package org.digitalcrafting.eregold.http.repository.customers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.digitalcrafting.eregold.http.core.MybatisSqlSessionFactory;
 
-import java.util.List;
-
 @Slf4j
-public class TransactionsEntityManager {
-    public Long getNextId() {
+public class CustomersEntityManager {
+    public CustomerEntity getByEmail(String email) {
         SqlSession sqlSession = MybatisSqlSessionFactory.get().openSession();
-        Long nextId = null;
+        CustomerEntity entity = null;
+
         try {
-            TransactionsMapper mapper = sqlSession.getMapper(TransactionsMapper.class);
-            nextId = mapper.getNextId();
+            CustomersMapper mapper = sqlSession.getMapper(CustomersMapper.class);
+            entity = mapper.getByEmail(email);
         } catch (Exception e) {
             log.info(e.getMessage());
         } finally {
             sqlSession.close();
         }
 
-        return nextId;
+        return entity;
     }
 
-    public void insert(TransactionEntity entity) {
+    public CustomerEntity getByCustomerId(String customerId) {
         SqlSession sqlSession = MybatisSqlSessionFactory.get().openSession();
+        CustomerEntity entity = null;
+
         try {
-            TransactionsMapper mapper = sqlSession.getMapper(TransactionsMapper.class);
+            CustomersMapper mapper = sqlSession.getMapper(CustomersMapper.class);
+            entity = mapper.getByCustomerId(customerId);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        } finally {
+            sqlSession.close();
+        }
+
+        return entity;
+    }
+
+    public void insert(CustomerEntity entity) {
+        SqlSession sqlSession = MybatisSqlSessionFactory.get().openSession();
+
+        try {
+            CustomersMapper mapper = sqlSession.getMapper(CustomersMapper.class);
             mapper.insert(entity);
             sqlSession.commit();
         } catch (Exception e) {
@@ -34,21 +50,5 @@ public class TransactionsEntityManager {
         } finally {
             sqlSession.close();
         }
-    }
-
-    public List<TransactionEntity> getByAccountNumber(String accountNumber) {
-        SqlSession sqlSession = MybatisSqlSessionFactory.get().openSession();
-        List<TransactionEntity> entities = null;
-
-        try {
-            TransactionsMapper mapper = sqlSession.getMapper(TransactionsMapper.class);
-            entities = mapper.getByAccountNumber(accountNumber);
-        } catch (Exception e) {
-            log.info(e.getMessage());
-        } finally {
-            sqlSession.close();
-        }
-
-        return entities;
     }
 }
