@@ -1,10 +1,17 @@
 package org.digitalcrafting.eregold.http.core;
 
+import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
+@Slf4j
 public abstract class DCAbstractHandler implements DCHandler {
+    private static Gson GSON = new Gson();
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if (DCHttpMethod.GET.equals(exchange.getRequestMethod())) {
@@ -21,6 +28,23 @@ public abstract class DCAbstractHandler implements DCHandler {
             this.handleOptions(exchange);
         } else {
             exchange.sendResponseHeaders(405, -1);
+        }
+    }
+
+    protected void sendResponse(HttpExchange exchange, Object respObj) {
+        sendResponse(exchange, GSON.toJson(respObj));
+    }
+
+    protected void sendResponse(HttpExchange exchange, String resp) {
+        try {
+            exchange.sendResponseHeaders(200, resp.getBytes(StandardCharsets.UTF_8).length);
+            OutputStream os = exchange.getResponseBody();
+            os.write(resp.getBytes(StandardCharsets.UTF_8));
+            os.flush();
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        } finally {
+            exchange.close();
         }
     }
 }
