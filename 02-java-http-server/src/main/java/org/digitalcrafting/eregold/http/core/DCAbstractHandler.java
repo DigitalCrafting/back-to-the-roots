@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 
 @Slf4j
 public abstract class DCAbstractHandler implements DCHandler {
-    private static Gson GSON = new Gson();
+    protected static Gson GSON = new Gson();
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
