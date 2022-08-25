@@ -48,7 +48,7 @@ public class LoginHandler extends DCAbstractHandler {
             String jsessionid = UUID.randomUUID().toString();
 
             DCUserContext userContext = new DCUserContext();
-            userContext.setUserId(userContext.getUserId());
+            userContext.setUserId(userEntity.getUserId());
             userContext.setToken(token);
 
             DCSession.INSTANCE.sessionMap.put(jsessionid, userContext);
