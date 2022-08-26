@@ -17,10 +17,10 @@ public class DCAuthenticator extends Authenticator {
     public Result authenticate(HttpExchange exchange) {
         Headers headers = exchange.getRequestHeaders();
 
-        List<String> cookies = headers.get("Cookie");
+        List<String> cookies = headers.get(DCHttpHeader.COOKIE);
 
         Optional<String> jsessionIdOpt = cookies.stream()
-                .filter(c -> c.startsWith("JSESSIONID"))
+                .filter(c -> c.startsWith(DCHttpHeader.Values.JSESSIONID))
                 .findFirst();
 
         if (jsessionIdOpt.isEmpty()) {
@@ -37,11 +37,11 @@ public class DCAuthenticator extends Authenticator {
 
         String userToken = userContext.getToken();
         String requestToken = headers
-                .getFirst("Authorization")
-                .substring("Bearer ".length());
+                .getFirst(DCHttpHeader.AUTHORIZATION)
+                .substring(DCHttpHeader.Values.BEARER.length());
 
         if (userToken != null && requestToken != null && JWTUtils.validate(requestToken)) {
-            return new Success(new HttpPrincipal("test", "eregold-realm"));
+            return new Success(new HttpPrincipal(userContext.getUserId(), "eregold-realm"));
         } else {
             return new Failure(403);
         }

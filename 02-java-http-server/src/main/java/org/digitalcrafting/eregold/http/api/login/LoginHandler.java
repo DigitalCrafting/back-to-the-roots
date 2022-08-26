@@ -4,6 +4,7 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import lombok.extern.slf4j.Slf4j;
 import org.digitalcrafting.eregold.http.core.DCAbstractHandler;
+import org.digitalcrafting.eregold.http.core.DCHttpHeader;
 import org.digitalcrafting.eregold.http.core.security.BCrypt;
 import org.digitalcrafting.eregold.http.core.security.JWTUtils;
 import org.digitalcrafting.eregold.http.core.session.DCSession;
@@ -54,8 +55,8 @@ public class LoginHandler extends DCAbstractHandler {
             DCSession.INSTANCE.sessionMap.put(jsessionid, userContext);
 
             Headers headers = exchange.getResponseHeaders();
-            headers.set("Set-Cookie", String.format("JSESSIONID=%s", jsessionid));
-            headers.set("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate");
+            headers.set(DCHttpHeader.SET_COOKIE, String.format("%s=%s", DCHttpHeader.Values.JSESSIONID, jsessionid));
+            headers.set(DCHttpHeader.CACHE_CONTROL, "no-cache, no-store, max-age=0, must-revalidate");
 
             LoginResponse response = new LoginResponse(token);
             sendResponse(exchange, response);
