@@ -4,6 +4,8 @@ import com.sun.net.httpserver.Authenticator;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpPrincipal;
+import org.digitalcrafting.eregold.http.core.consts.DCHttpHeader;
+import org.digitalcrafting.eregold.http.core.consts.DCHttpStatus;
 import org.digitalcrafting.eregold.http.core.security.JWTUtils;
 import org.digitalcrafting.eregold.http.core.session.DCSession;
 import org.digitalcrafting.eregold.http.core.session.DCUserContext;
@@ -24,7 +26,7 @@ public class DCAuthenticator extends Authenticator {
                 .findFirst();
 
         if (jsessionIdOpt.isEmpty()) {
-            return new Failure(403);
+            return new Failure(DCHttpStatus.FORBIDDEN.value());
         }
 
         String jsessionid = jsessionIdOpt.get().split("=")[1];
@@ -32,7 +34,7 @@ public class DCAuthenticator extends Authenticator {
         DCUserContext userContext = DCSession.INSTANCE.sessionMap.get(jsessionid);
 
         if (userContext == null) {
-            return new Failure(403);
+            return new Failure(DCHttpStatus.FORBIDDEN.value());
         }
 
         String userToken = userContext.getToken();
@@ -43,7 +45,7 @@ public class DCAuthenticator extends Authenticator {
         if (userToken != null && requestToken != null && JWTUtils.validate(requestToken)) {
             return new Success(new HttpPrincipal(userContext.getUserId(), "eregold-realm"));
         } else {
-            return new Failure(403);
+            return new Failure(DCHttpStatus.FORBIDDEN.value());
         }
     }
 }

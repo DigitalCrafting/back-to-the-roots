@@ -1,4 +1,4 @@
-package org.digitalcrafting.eregold.http.core;
+package org.digitalcrafting.eregold.http.core.consts;
 
 public final class DCHttpMethod {
     public static final String GET = "GET";

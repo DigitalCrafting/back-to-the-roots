@@ -4,7 +4,8 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import lombok.extern.slf4j.Slf4j;
 import org.digitalcrafting.eregold.http.core.DCAbstractHandler;
-import org.digitalcrafting.eregold.http.core.DCHttpHeader;
+import org.digitalcrafting.eregold.http.core.consts.DCHttpHeader;
+import org.digitalcrafting.eregold.http.core.consts.DCHttpStatus;
 import org.digitalcrafting.eregold.http.core.security.BCrypt;
 import org.digitalcrafting.eregold.http.core.security.JWTUtils;
 import org.digitalcrafting.eregold.http.core.session.DCSession;
@@ -39,7 +40,7 @@ public class LoginHandler extends DCAbstractHandler {
 
         UserEntity userEntity = usersEntityManager.getByUserId(request.getUserId());
         if (userEntity == null) {
-            // TODO sendResponse not found
+            sendStatus(exchange, DCHttpStatus.NOT_FOUND);
             return;
         }
 
@@ -62,6 +63,6 @@ public class LoginHandler extends DCAbstractHandler {
             sendResponse(exchange, response);
         }
 
-        // TODO sendResponse bad request
+        sendStatus(exchange, DCHttpStatus.NOT_FOUND);
     }
 }

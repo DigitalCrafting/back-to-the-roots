@@ -3,6 +3,8 @@ package org.digitalcrafting.eregold.http.core;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import lombok.extern.slf4j.Slf4j;
+import org.digitalcrafting.eregold.http.core.consts.DCHttpMethod;
+import org.digitalcrafting.eregold.http.core.consts.DCHttpStatus;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -28,6 +30,16 @@ public abstract class DCAbstractHandler implements DCHandler {
             this.handleOptions(exchange);
         } else {
             exchange.sendResponseHeaders(405, -1);
+        }
+    }
+
+    protected void sendStatus(HttpExchange exchange, DCHttpStatus status) {
+        try {
+            exchange.sendResponseHeaders(status.value(), -1);
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        } finally {
+            exchange.close();
         }
     }
 
