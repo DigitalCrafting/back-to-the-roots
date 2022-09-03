@@ -28,10 +28,10 @@ public class JavaHttpApplication {
 
         DCAuthenticator authenticator = new DCAuthenticator();
 
-        testContext.setAuthenticator(authenticator);
+//        testContext.setAuthenticator(authenticator);
 
-        accountsContext.setAuthenticator(authenticator);
-        transactionsContext.setAuthenticator(authenticator);
+//        accountsContext.setAuthenticator(authenticator);
+//        transactionsContext.setAuthenticator(authenticator);
 
         server.setExecutor(null);
         server.start();

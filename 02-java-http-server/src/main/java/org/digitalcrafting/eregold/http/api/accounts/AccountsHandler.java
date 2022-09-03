@@ -10,7 +10,22 @@ public class AccountsHandler extends DCAbstractHandler {
 
     @Override
     public void handleGet(HttpExchange exchange) {
-        String resp = "Accounts working!\n";
+        String[] uriParts = exchange.getRequestURI().getPath().split("/");
+        if (uriParts.length == 3) { // first one is empty due to leading slash
+            getAccounts(exchange);
+        } else {
+            String accountNumber = uriParts[3];
+            getAccountDetails(exchange, accountNumber);
+        }
+    }
+
+    private void getAccounts(HttpExchange exchange) {
+        String resp = "Returning accounts!\n";
+        sendResponse(exchange, resp);
+    }
+
+    private void getAccountDetails(HttpExchange exchange, String accountNumber) {
+        String resp = "Returning account details "  + accountNumber + "!\n";
         sendResponse(exchange, resp);
     }
 
