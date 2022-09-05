@@ -10,9 +10,12 @@ import org.digitalcrafting.eregold.http.core.security.BCrypt;
 import org.digitalcrafting.eregold.http.core.security.JWTUtils;
 import org.digitalcrafting.eregold.http.core.session.DCSession;
 import org.digitalcrafting.eregold.http.core.session.DCUserContext;
+import org.digitalcrafting.eregold.http.repository.customers.CustomerEntity;
+import org.digitalcrafting.eregold.http.repository.customers.CustomersEntityManager;
 import org.digitalcrafting.eregold.http.repository.users.UserEntity;
 import org.digitalcrafting.eregold.http.repository.users.UsersEntityManager;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
@@ -20,11 +23,8 @@ import java.util.UUID;
 
 @Slf4j
 public class LoginHandler extends DCAbstractHandler {
-    private UsersEntityManager usersEntityManager;
-
-    public LoginHandler() {
-        usersEntityManager = new UsersEntityManager();
-    }
+    private final UsersEntityManager usersEntityManager = new UsersEntityManager();
+    private final CustomersEntityManager customersEntityManager = new CustomersEntityManager();
 
     @Override
     public void handleGet(HttpExchange exchange) {
@@ -49,8 +49,11 @@ public class LoginHandler extends DCAbstractHandler {
             String token = JWTUtils.generateAccessToken(userEntity.getUserId());
             String jsessionid = UUID.randomUUID().toString();
 
+            CustomerEntity customerEntity = customersEntityManager.getByEmail(userEntity.getUserId());
+
             DCUserContext userContext = new DCUserContext();
             userContext.setUserId(userEntity.getUserId());
+            userContext.setCustomerId(customerEntity.getCustomerId());
             userContext.setToken(token);
 
             DCSession.INSTANCE.sessionMap.put(jsessionid, userContext);
@@ -64,5 +67,16 @@ public class LoginHandler extends DCAbstractHandler {
         }
 
         sendStatus(exchange, DCHttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public void handleOptions(HttpExchange exchange) throws IOException {
+        exchange.getResponseHeaders().set("Allow", "GET, POST, OPTIONS");
+        exchange.getResponseHeaders().set("Content-Type", "application/json");
+
+        defaultHeaders(exchange);
+
+        exchange.sendResponseHeaders(200, 0);
+        exchange.close();
     }
 }

@@ -1,14 +1,21 @@
 package org.digitalcrafting.eregold.http.core;
 
 import com.google.gson.Gson;
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import lombok.extern.slf4j.Slf4j;
+import org.digitalcrafting.eregold.http.core.consts.DCHttpHeader;
 import org.digitalcrafting.eregold.http.core.consts.DCHttpMethod;
 import org.digitalcrafting.eregold.http.core.consts.DCHttpStatus;
+import org.digitalcrafting.eregold.http.core.session.DCSession;
+import org.digitalcrafting.eregold.http.core.session.DCUserContext;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Slf4j
 public abstract class DCAbstractHandler implements DCHandler {
@@ -48,6 +55,8 @@ public abstract class DCAbstractHandler implements DCHandler {
     }
 
     protected void sendResponse(HttpExchange exchange, String resp) {
+        defaultHeaders(exchange);
+
         try {
             exchange.sendResponseHeaders(200, resp.getBytes(StandardCharsets.UTF_8).length);
             OutputStream os = exchange.getResponseBody();
@@ -58,5 +67,36 @@ public abstract class DCAbstractHandler implements DCHandler {
         } finally {
             exchange.close();
         }
+    }
+
+    protected void defaultHeaders(HttpExchange exchange) {
+        exchange.getResponseHeaders().set("Access-Control-Allow-Credentials", "true");
+        exchange.getResponseHeaders().set("Access-Control-Allow-Headers", "authorization, content-type");
+        exchange.getResponseHeaders().set("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+        exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "http://localhost:4200");
+        exchange.getResponseHeaders().set("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate");
+        exchange.getResponseHeaders().set("Connection", "keep-alive");
+    }
+
+    /* TODO refactor + logging */
+    protected DCUserContext getUserContext(HttpExchange exchange) {
+        Headers headers = exchange.getRequestHeaders();
+
+        List<String> cookies = headers.get(DCHttpHeader.COOKIE);
+
+        Optional<String> jsessionIdOpt = cookies
+                .stream()
+                .map(s -> s.split(";"))
+                .flatMap(Stream::of)
+                .filter(c -> c.trim().startsWith(DCHttpHeader.Values.JSESSIONID))
+                .findFirst();
+
+        if (jsessionIdOpt.isEmpty()) {
+            return null;
+        }
+
+        String jsessionid = jsessionIdOpt.get().split("=")[1];
+
+        return DCSession.INSTANCE.sessionMap.get(jsessionid);
     }
 }

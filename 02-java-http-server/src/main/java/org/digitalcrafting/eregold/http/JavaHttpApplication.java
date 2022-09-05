@@ -30,7 +30,7 @@ public class JavaHttpApplication {
 
 //        testContext.setAuthenticator(authenticator);
 
-//        accountsContext.setAuthenticator(authenticator);
+        accountsContext.setAuthenticator(authenticator);
 //        transactionsContext.setAuthenticator(authenticator);
 
         server.setExecutor(null);
