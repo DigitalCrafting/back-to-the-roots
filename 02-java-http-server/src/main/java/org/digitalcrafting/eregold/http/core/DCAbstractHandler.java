@@ -41,6 +41,7 @@ public abstract class DCAbstractHandler implements DCHandler {
     }
 
     protected void sendStatus(HttpExchange exchange, DCHttpStatus status) {
+        defaultHeaders(exchange);
         try {
             exchange.sendResponseHeaders(status.value(), -1);
         } catch (IOException e) {

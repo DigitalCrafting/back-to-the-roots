@@ -25,8 +25,7 @@
         VALUES (#{accountNumber}, #{accountName}, #{currentBalance}, #{currency}, #{type})
     </insert>
 
-    <insert id="insertCustomerAccount"
-            parameterType="org.digitalcrafting.eregold.http.repository.accounts.CustomerAccountEntity">
+    <insert id="insertCustomerAccount">
         INSERT INTO customer_accounts (customer_id, account_number)
         VALUES (#{customerId}, #{accountNumber})
     </insert>

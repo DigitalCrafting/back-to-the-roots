@@ -1,15 +1,15 @@
 version: "3.7"
 
 services:
-#  eregold-frontend:
-#    build: ./frontend
-#    container_name: eregold-frontend
-#    ports:
-#      - 4200:4200
-#    volumes:
-#      - ./frontend:/app
-#    networks:
-#      - eregold-network
+  eregold-frontend:
+    build: ./frontend
+    container_name: eregold-frontend
+    ports:
+      - 4200:4200
+    volumes:
+      - ./frontend:/app
+    networks:
+      - eregold-network
 
   eregold-db:
     image: postgres:14.0-alpine

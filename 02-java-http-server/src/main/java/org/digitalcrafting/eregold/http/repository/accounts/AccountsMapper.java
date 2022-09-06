@@ -14,7 +14,7 @@ public interface AccountsMapper {
 
     void insertAccount(AccountEntity entity);
 
-    void insertCustomerAccount(String customerId, String accountNumber);
+    void insertCustomerAccount(@Param("customerId") String customerId, @Param("accountNumber") String accountNumber);
 
     void updateAccountBalance(@Param("accountNumber") String accountNumber, @Param("balance") BigDecimal balance);
 }

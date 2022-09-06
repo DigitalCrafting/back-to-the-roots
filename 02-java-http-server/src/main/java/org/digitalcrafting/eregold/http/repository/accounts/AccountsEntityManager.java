@@ -39,26 +39,12 @@ public class AccountsEntityManager {
         return customerAccounts;
     }
 
-    public void insertAccount(AccountEntity entity) {
+    public void createAccount(AccountEntity entity, String customerId) {
         SqlSession sqlSession = MybatisSqlSessionFactory.get().openSession();
-
         try {
             AccountsMapper mapper = sqlSession.getMapper(AccountsMapper.class);
             mapper.insertAccount(entity);
-            sqlSession.commit();
-        } catch (Exception e) {
-            log.info(e.getMessage());
-        } finally {
-            sqlSession.close();
-        }
-    }
-
-    public void insertCustomerAccount(String customerId, String accountNumber) {
-        SqlSession sqlSession = MybatisSqlSessionFactory.get().openSession();
-
-        try {
-            AccountsMapper mapper = sqlSession.getMapper(AccountsMapper.class);
-            mapper.insertCustomerAccount(customerId, accountNumber);
+            mapper.insertCustomerAccount(customerId, entity.getAccountNumber());
             sqlSession.commit();
         } catch (Exception e) {
             log.info(e.getMessage());

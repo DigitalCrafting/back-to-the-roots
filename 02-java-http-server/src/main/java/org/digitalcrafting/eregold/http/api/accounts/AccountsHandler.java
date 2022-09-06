@@ -2,10 +2,13 @@ package org.digitalcrafting.eregold.http.api.accounts;
 
 import com.sun.net.httpserver.HttpExchange;
 import org.digitalcrafting.eregold.http.core.DCAbstractHandler;
+import org.digitalcrafting.eregold.http.core.consts.DCHttpStatus;
 import org.digitalcrafting.eregold.http.core.session.DCUserContext;
+import org.digitalcrafting.eregold.http.domain.accounts.AccountDetailsModel;
 import org.digitalcrafting.eregold.http.domain.accounts.AccountModel;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 public class AccountsHandler extends DCAbstractHandler {
@@ -29,13 +32,21 @@ public class AccountsHandler extends DCAbstractHandler {
     }
 
     private void getAccountDetails(HttpExchange exchange, String accountNumber) {
-        String resp = "Returning account details "  + accountNumber + "!\n";
-        sendResponse(exchange, resp);
+        AccountDetailsModel accountDetailsModel = service.getAccountDetails(accountNumber);
+        if (accountDetailsModel == null) {
+            sendStatus(exchange, DCHttpStatus.NOT_FOUND);
+        }
+
+        sendResponse(exchange, accountDetailsModel);
     }
 
     @Override
     public void handlePost(HttpExchange exchange) throws IOException {
-        super.handlePost(exchange);
+        InputStreamReader isr = new InputStreamReader(exchange.getRequestBody());
+        CreateAccountRequest request = GSON.fromJson(isr, CreateAccountRequest.class);
+
+        service.createAccount(request, getUserContext(exchange));
+        sendStatus(exchange, DCHttpStatus.CREATED);
     }
 
     @Override
