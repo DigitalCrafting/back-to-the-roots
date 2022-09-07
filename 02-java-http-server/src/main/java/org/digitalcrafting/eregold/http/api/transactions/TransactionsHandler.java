@@ -3,8 +3,10 @@ package org.digitalcrafting.eregold.http.api.transactions;
 import com.sun.net.httpserver.HttpExchange;
 import org.digitalcrafting.eregold.http.core.DCAbstractHandler;
 import org.digitalcrafting.eregold.http.core.consts.DCHttpStatus;
+import org.digitalcrafting.eregold.http.domain.transactions.TransactionModel;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class TransactionsHandler extends DCAbstractHandler {
     private final String PATH_TRANSFER = "/transfer";
@@ -30,12 +32,27 @@ public class TransactionsHandler extends DCAbstractHandler {
     }
 
     private void transfer(HttpExchange exchange) {
-        String resp = "Making transfer!\n";
-        sendResponse(exchange, resp);
+        InputStreamReader isr = new InputStreamReader(exchange.getRequestBody());
+        TransactionModel request = GSON.fromJson(isr, TransactionModel.class);
+        service.transfer(request);
+        sendStatus(exchange, DCHttpStatus.OK);
     }
 
     private void deposit(HttpExchange exchange) {
-        String resp = "Making deposit!\n";
-        sendResponse(exchange, resp);
+        InputStreamReader isr = new InputStreamReader(exchange.getRequestBody());
+        TransactionModel request = GSON.fromJson(isr, TransactionModel.class);
+        service.deposit(request);
+        sendStatus(exchange, DCHttpStatus.OK);
+    }
+
+    @Override
+    public void handleOptions(HttpExchange exchange) throws IOException {
+        exchange.getResponseHeaders().set("Allow", "GET, POST, OPTIONS");
+        exchange.getResponseHeaders().set("Content-Type", "application/json");
+
+        defaultHeaders(exchange);
+
+        exchange.sendResponseHeaders(200, 0);
+        exchange.close();
     }
 }

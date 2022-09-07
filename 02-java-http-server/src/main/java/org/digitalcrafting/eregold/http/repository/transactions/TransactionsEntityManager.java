@@ -23,10 +23,31 @@ public class TransactionsEntityManager {
         return nextId;
     }
 
+    public void insert(List<TransactionEntity> transactions) {
+        if (transactions != null && !transactions.isEmpty()) {
+            SqlSession sqlSession = MybatisSqlSessionFactory.get().openSession();
+            try {
+                TransactionsMapper mapper = sqlSession.getMapper(TransactionsMapper.class);
+                Long transactionId = getNextId();
+                transactions.forEach(transaction -> {
+                    transaction.setId(transactionId);
+                    mapper.insert(transaction);
+                });
+                sqlSession.commit();
+            } catch (Exception e) {
+                log.info(e.getMessage());
+            } finally {
+                sqlSession.close();
+            }
+        }
+    }
+
     public void insert(TransactionEntity entity) {
         SqlSession sqlSession = MybatisSqlSessionFactory.get().openSession();
         try {
             TransactionsMapper mapper = sqlSession.getMapper(TransactionsMapper.class);
+            Long transactionId = getNextId();
+            entity.setId(transactionId);
             mapper.insert(entity);
             sqlSession.commit();
         } catch (Exception e) {
