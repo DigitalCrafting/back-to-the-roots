@@ -6,7 +6,6 @@ import org.digitalcrafting.eregold.http.core.consts.DCHttpStatus;
 import org.digitalcrafting.eregold.http.domain.transactions.TransactionModel;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class TransactionsHandler extends DCAbstractHandler {
     private final String PATH_TRANSFER = "/transfer";
@@ -21,7 +20,7 @@ public class TransactionsHandler extends DCAbstractHandler {
     }
 
     @Override
-    public void handlePost(HttpExchange exchange) throws IOException {
+    public void handlePost(HttpExchange exchange) {
         if (exchange.getRequestURI().toString().contains(PATH_TRANSFER)) {
             transfer(exchange);
         } else if (exchange.getRequestURI().toString().contains(PATH_DEPOSIT)) {
@@ -32,15 +31,13 @@ public class TransactionsHandler extends DCAbstractHandler {
     }
 
     private void transfer(HttpExchange exchange) {
-        InputStreamReader isr = new InputStreamReader(exchange.getRequestBody());
-        TransactionModel request = GSON.fromJson(isr, TransactionModel.class);
+        TransactionModel request = parseRequestBody(exchange, TransactionModel.class);
         service.transfer(request);
         sendStatus(exchange, DCHttpStatus.OK);
     }
 
     private void deposit(HttpExchange exchange) {
-        InputStreamReader isr = new InputStreamReader(exchange.getRequestBody());
-        TransactionModel request = GSON.fromJson(isr, TransactionModel.class);
+        TransactionModel request = parseRequestBody(exchange, TransactionModel.class);
         service.deposit(request);
         sendStatus(exchange, DCHttpStatus.OK);
     }

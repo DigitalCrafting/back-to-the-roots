@@ -11,6 +11,7 @@ import org.digitalcrafting.eregold.http.core.session.DCSession;
 import org.digitalcrafting.eregold.http.core.session.DCUserContext;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -77,6 +78,12 @@ public abstract class DCAbstractHandler implements DCHandler {
         exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "http://localhost:4200");
         exchange.getResponseHeaders().set("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate");
         exchange.getResponseHeaders().set("Connection", "keep-alive");
+    }
+
+    protected <T> T parseRequestBody(HttpExchange exchange, Class<T> clazz) {
+        InputStreamReader isr = new InputStreamReader(exchange.getRequestBody());
+        T request = GSON.fromJson(isr, clazz);
+        return request;
     }
 
     /* TODO refactor + logging */

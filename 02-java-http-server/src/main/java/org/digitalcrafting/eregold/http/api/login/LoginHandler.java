@@ -16,7 +16,6 @@ import org.digitalcrafting.eregold.http.repository.users.UserEntity;
 import org.digitalcrafting.eregold.http.repository.users.UsersEntityManager;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
@@ -34,9 +33,7 @@ public class LoginHandler extends DCAbstractHandler {
 
     @Override
     public void handlePost(HttpExchange exchange) {
-        InputStreamReader isr = new InputStreamReader(exchange.getRequestBody());
-        LoginRequest request = GSON.fromJson(isr, LoginRequest.class);
-
+        LoginRequest request = parseRequestBody(exchange, LoginRequest.class);
 
         UserEntity userEntity = usersEntityManager.getByUserId(request.getUserId());
         if (userEntity == null) {

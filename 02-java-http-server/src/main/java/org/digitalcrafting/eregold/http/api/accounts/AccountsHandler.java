@@ -8,7 +8,6 @@ import org.digitalcrafting.eregold.http.domain.accounts.AccountDetailsModel;
 import org.digitalcrafting.eregold.http.domain.accounts.AccountModel;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 
 public class AccountsHandler extends DCAbstractHandler {
@@ -41,10 +40,8 @@ public class AccountsHandler extends DCAbstractHandler {
     }
 
     @Override
-    public void handlePost(HttpExchange exchange) throws IOException {
-        InputStreamReader isr = new InputStreamReader(exchange.getRequestBody());
-        CreateAccountRequest request = GSON.fromJson(isr, CreateAccountRequest.class);
-
+    public void handlePost(HttpExchange exchange) {
+        CreateAccountRequest request = parseRequestBody(exchange, CreateAccountRequest.class);
         service.createAccount(request, getUserContext(exchange));
         sendStatus(exchange, DCHttpStatus.CREATED);
     }
