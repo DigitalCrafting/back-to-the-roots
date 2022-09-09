@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit} from '@angular/core';
 import {AccountsService} from "../../../../services/accounts.service";
 import {AccountDetailsModel} from "../../../../models/account.models";
+import {ServiceDispatcher} from "../../../../core/service-dispatcher/service-dispatcher";
 
 @Component({
     selector: 'account-details',
@@ -25,7 +26,7 @@ export class AccountDetailsComponent implements OnInit {
     }
 
     async ngOnInit() {
-        this.accountDetails = await this._accountsService.getAccountDetails(this.accountNumber);
+        this.accountDetails = await ServiceDispatcher.dispatch(this._accountsService.getAccountDetails(this.accountNumber));
     }
 
     onGoBackClicked() {

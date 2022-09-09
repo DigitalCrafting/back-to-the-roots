@@ -12,7 +12,7 @@ export class LoginService {
     constructor(private _httpClient: HttpClient) {
     }
 
-    public login(request: LoginRequest): Observable<LoginResponse> {
+    public login(request: LoginRequest): Promise<LoginResponse> {
         let httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ export class LoginService {
             withCredentials: true
         };
         // @ts-ignore
-        return this._httpClient.post(`${this.baseUrl}`, request, httpOptions).pipe();
+        return this._httpClient.post(`${this.baseUrl}`, request, httpOptions).toPromise();
     }
 }
 

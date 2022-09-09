@@ -4,6 +4,7 @@ import {LoginRequest, LoginResponse, LoginService} from "../../../services/login
 import {UserContext} from "../../common/user.context";
 import {Router} from "@angular/router";
 import {EregoldRoutes} from "../../../utils/routes.enum";
+import {ServiceDispatcher} from "../../../core/service-dispatcher/service-dispatcher";
 
 @Component({
     selector: 'login',
@@ -38,16 +39,13 @@ export class LoginComponent implements OnInit {
                 password: [...pass]
             }
 
-            this._loginService.login(request).subscribe(
-                (resp: LoginResponse) => {
-                    sessionStorage.setItem("token", resp.token);
-                    this._userContext.isLoggedIn = true;
-                    this._router.navigate([EregoldRoutes.UI]);
-                },
-                (error) => {
-                    // TODO message for user
-                    console.log("Invalid credentials", error)
-                });
+            let resp: LoginResponse = await ServiceDispatcher.dispatch<LoginResponse>(
+                this._loginService.login(request)
+            )
+
+            sessionStorage.setItem("token", resp.token);
+            this._userContext.isLoggedIn = true;
+            this._router.navigate([EregoldRoutes.UI]);
         }
     }
 

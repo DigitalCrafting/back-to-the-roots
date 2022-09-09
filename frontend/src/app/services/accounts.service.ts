@@ -27,7 +27,7 @@ export class AccountsService {
     }
 
     public createAccount(request: CreateAccountRequest) {
-        return this._httpClient.post(this.baseUrl, request, this.httpOptions).pipe();
+        return this._httpClient.post(this.baseUrl, request, this.httpOptions).toPromise();
     }
 
 }

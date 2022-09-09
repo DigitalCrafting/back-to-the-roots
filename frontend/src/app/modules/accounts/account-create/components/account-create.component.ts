@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AccountsService} from "../../../../services/accounts.service";
 import {AccountTypeEnum, CurrencyEnum} from "../../../../models/enums";
 import {EregoldUserContext} from "../../../../context/eregold-user-context";
+import {ServiceDispatcher} from "../../../../core/service-dispatcher/service-dispatcher";
 
 @Component({
     selector: 'account-create',
@@ -59,7 +60,7 @@ export class AccountCreateComponent implements OnInit {
 
     onAddClicked() {
         if (this.formGroup.valid) {
-            this._accountsService.createAccount(this.formGroup.value).subscribe(async response => {
+            ServiceDispatcher.dispatch(this._accountsService.createAccount(this.formGroup.value)).then(async response => {
                 await this._eregoldUserContext.getAccounts(true);
                 this.accountCreateEventEmitter.emit(AccountCreateAction.SHOW_LIST);
             });

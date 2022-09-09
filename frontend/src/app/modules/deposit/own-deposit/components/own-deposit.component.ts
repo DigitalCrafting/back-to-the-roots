@@ -4,6 +4,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CurrencyEnum} from "../../../../models/enums";
 import {EregoldUserContext} from "../../../../context/eregold-user-context";
 import {TransactionsService} from "../../../../services/transactions.service";
+import {ServiceDispatcher} from "../../../../core/service-dispatcher/service-dispatcher";
 
 @Component({
     selector: 'own-deposit',
@@ -52,7 +53,7 @@ export class OwnDepositComponent implements OnInit {
 
     onDepositClicked() {
         if (this.formGroup.valid) {
-            this._transactionsService.deposit(this.formGroup.getRawValue()).subscribe(async () => {
+            ServiceDispatcher.dispatch(this._transactionsService.deposit(this.formGroup.getRawValue())).then(async () => {
                 await this._userContext.getAccounts(true);
                 this.backEventEmitter.emit();
             });

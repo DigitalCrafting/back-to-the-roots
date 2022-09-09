@@ -18,11 +18,11 @@ export class TransactionsService {
     }
 
     public transfer(request: TransactionModel) {
-        return this._httpClient.post(this.baseUrl + '/transfer', request, this.httpOptions).pipe();
+        return this._httpClient.post(this.baseUrl + '/transfer', request, this.httpOptions).toPromise();
     }
 
     public deposit(request: TransactionModel) {
-        return this._httpClient.post(this.baseUrl + '/deposit', request, this.httpOptions).pipe();
+        return this._httpClient.post(this.baseUrl + '/deposit', request, this.httpOptions).toPromise();
     }
 }
 

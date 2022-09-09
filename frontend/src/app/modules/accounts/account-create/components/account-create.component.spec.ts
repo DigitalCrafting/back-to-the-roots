@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AccountCreateComponent} from './account-create.component';
 import {AccountsService} from "../../../../services/accounts.service";
-import {Observable, of} from "rxjs";
+import {of} from "rxjs";
 import {By} from "@angular/platform-browser";
 import {CreateAccountRequest} from "../../../../models/account.models";
 import {EregoldUserContext} from "../../../../context/eregold-user-context";
@@ -16,13 +16,13 @@ describe('AccountCreateComponent', () => {
 
     beforeEach(async () => {
         accountsService = {
-            createAccount(request: CreateAccountRequest): Observable<Object> {
-                return of(true);
+            createAccount(request: CreateAccountRequest): Promise<Object> {
+                return Promise.resolve(true);
             }
         } as AccountsService;
         userContext = {
             async getAccounts(reload: boolean = false): Promise<any> {
-                return of(true);
+                return Promise.resolve(true);
             }
         } as EregoldUserContext;
         await TestBed.configureTestingModule({

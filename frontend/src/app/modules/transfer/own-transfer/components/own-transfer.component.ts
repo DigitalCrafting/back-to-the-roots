@@ -6,6 +6,7 @@ import {TransactionModel, TransactionsService} from "../../../../services/transa
 import {CurrencyEnum} from "../../../../models/enums";
 import {OwnTransferValidators} from "../validators/own-transfer.validators";
 import {OwnTransferControlNames} from "../utils/own-transfer.utils";
+import {ServiceDispatcher} from "../../../../core/service-dispatcher/service-dispatcher";
 
 @Component({
     selector: 'own-transfer',
@@ -61,7 +62,7 @@ export class OwnTransferComponent implements OnInit {
 
     onTransferClicked() {
         if (this.formGroup.valid) {
-            this._transactionsService.transfer(this.createTransferRequest()).subscribe(async () => {
+            ServiceDispatcher.dispatch(this._transactionsService.transfer(this.createTransferRequest())).then(async () => {
                 await this._userContext.getAccounts(true);
                 this.backEventEmitter.emit();
             });

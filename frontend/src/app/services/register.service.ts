@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -18,8 +17,8 @@ export class RegisterService {
     constructor(private _httpClient: HttpClient) {
     }
 
-    public register(request: RegisterRequest): Observable<any> {
-        return this._httpClient.post(this.baseUrl, request, this.httpOptions).pipe();
+    public register(request: RegisterRequest): Promise<any> {
+        return this._httpClient.post(this.baseUrl, request, this.httpOptions).toPromise();
     }
 }
 

@@ -9,6 +9,7 @@ import {
 } from "../../../services/register.service";
 import {Router} from "@angular/router";
 import {EregoldRoutes} from "../../../utils/routes.enum";
+import {ServiceDispatcher} from "../../../core/service-dispatcher/service-dispatcher";
 
 @Component({
     selector: 'register',
@@ -44,7 +45,7 @@ export class RegisterComponent {
                 lastName: this.formGroup.get('lastName').value,
             };
 
-            this._registerService.register(request).subscribe(
+            ServiceDispatcher.dispatch<RegisterResponse>(this._registerService.register(request)).then(
                 (resp: RegisterResponse) => {
                     if (resp.status === RegisterStatusEnum.CREATED) {
                         console.log(resp.customerId);

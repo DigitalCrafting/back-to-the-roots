@@ -5,7 +5,6 @@ import {EregoldUserContext} from "../../../../context/eregold-user-context";
 import {TransactionModel, TransactionsService} from "../../../../services/transactions.service";
 import {AccountTypeEnum, CurrencyEnum} from "../../../../models/enums";
 import {AccountModel} from "../../../../models/account.models";
-import {Observable, of} from "rxjs";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
@@ -42,8 +41,8 @@ describe('OwnDepositComponent', () => {
     } as EregoldUserContext;
 
     transactionsService = {
-      deposit(request: TransactionModel): Observable<any> {
-        return of(true);
+      deposit(request: TransactionModel): Promise<any> {
+        return Promise.resolve(true);
       }
     } as TransactionsService;
 
@@ -106,7 +105,7 @@ describe('OwnDepositComponent', () => {
     });
 
     it('should call transaction api on "deposit" click', async () => {
-      const spy = spyOn(transactionsService, 'deposit').and.returnValue(of(true));
+      const spy = spyOn(transactionsService, 'deposit').and.returnValue(Promise.resolve(true));
 
       const transferButton = fixture.debugElement.query(By.css('#depositButton'));
       transferButton.nativeElement.click();

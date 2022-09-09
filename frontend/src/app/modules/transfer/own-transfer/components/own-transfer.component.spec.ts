@@ -8,7 +8,6 @@ import {EregoldUserContext} from "../../../../context/eregold-user-context";
 import {AccountModel} from "../../../../models/account.models";
 import {By} from "@angular/platform-browser";
 import {TransactionModel, TransactionsService} from "../../../../services/transactions.service";
-import {Observable, of} from "rxjs";
 import {AccountTypeEnum, CurrencyEnum} from "../../../../models/enums";
 
 describe('OwnTransferComponent', () => {
@@ -42,8 +41,8 @@ describe('OwnTransferComponent', () => {
         } as EregoldUserContext;
 
         transactionsService = {
-            transfer(request: TransactionModel): Observable<any> {
-                return of(true);
+            transfer(request: TransactionModel): Promise<any> {
+                return Promise.resolve(true);
             }
         } as TransactionsService;
 
@@ -114,7 +113,7 @@ describe('OwnTransferComponent', () => {
         });
 
         it('should call transaction api on "transfer" click', async () => {
-            const spy = spyOn(transactionsService, 'transfer').and.returnValue(of(true));
+            const spy = spyOn(transactionsService, 'transfer').and.returnValue(Promise.resolve(true));
 
             const transferButton = fixture.debugElement.query(By.css('#transferButton'));
             transferButton.nativeElement.click();
