@@ -53,14 +53,18 @@ public abstract class DCAbstractHandler implements DCHandler {
     }
 
     protected void sendResponse(HttpExchange exchange, Object respObj) {
-        sendResponse(exchange, GSON.toJson(respObj));
+        sendResponse(exchange, respObj, DCHttpStatus.OK);
     }
 
-    protected void sendResponse(HttpExchange exchange, String resp) {
+    protected void sendResponse(HttpExchange exchange, Object respObj, DCHttpStatus status) {
+        sendResponse(exchange, GSON.toJson(respObj), status);
+    }
+
+    private void sendResponse(HttpExchange exchange, String resp, DCHttpStatus status) {
         defaultHeaders(exchange);
 
         try {
-            exchange.sendResponseHeaders(200, resp.getBytes(StandardCharsets.UTF_8).length);
+            exchange.sendResponseHeaders(status.value(), resp.getBytes(StandardCharsets.UTF_8).length);
             OutputStream os = exchange.getResponseBody();
             os.write(resp.getBytes(StandardCharsets.UTF_8));
             os.flush();
