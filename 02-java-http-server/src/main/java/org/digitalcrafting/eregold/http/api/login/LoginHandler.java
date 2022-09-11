@@ -26,12 +26,6 @@ public class LoginHandler extends DCAbstractHandler {
     private final CustomersEntityManager customersEntityManager = new CustomersEntityManager();
 
     @Override
-    public void handleGet(HttpExchange exchange) {
-        String resp = "Login working!\n";
-        sendResponse(exchange, resp);
-    }
-
-    @Override
     public void handlePost(HttpExchange exchange) {
         LoginRequest request = parseRequestBody(exchange, LoginRequest.class);
 
@@ -68,7 +62,7 @@ public class LoginHandler extends DCAbstractHandler {
 
     @Override
     public void handleOptions(HttpExchange exchange) throws IOException {
-        exchange.getResponseHeaders().set("Allow", "GET, POST, OPTIONS");
+        exchange.getResponseHeaders().set("Allow", "POST, OPTIONS");
         exchange.getResponseHeaders().set("Content-Type", "application/json");
 
         defaultHeaders(exchange);

@@ -14,12 +14,6 @@ public class TransactionsHandler extends DCAbstractHandler {
     private final TransactionsService service = new TransactionsService();
 
     @Override
-    public void handleGet(HttpExchange exchange) {
-        String resp = "Transactions working!\n";
-        sendResponse(exchange, resp);
-    }
-
-    @Override
     public void handlePost(HttpExchange exchange) {
         if (exchange.getRequestURI().toString().contains(PATH_TRANSFER)) {
             transfer(exchange);
@@ -44,7 +38,7 @@ public class TransactionsHandler extends DCAbstractHandler {
 
     @Override
     public void handleOptions(HttpExchange exchange) throws IOException {
-        exchange.getResponseHeaders().set("Allow", "GET, POST, OPTIONS");
+        exchange.getResponseHeaders().set("Allow", "POST, OPTIONS");
         exchange.getResponseHeaders().set("Content-Type", "application/json");
 
         defaultHeaders(exchange);

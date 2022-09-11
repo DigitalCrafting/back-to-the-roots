@@ -10,12 +10,6 @@ public class RegistrationHandler extends DCAbstractHandler {
     private final RegistrationService service = new RegistrationService();
 
     @Override
-    public void handleGet(HttpExchange exchange) {
-        String resp = "Registration working!\n";
-        sendResponse(exchange, resp);
-    }
-
-    @Override
     public void handlePost(HttpExchange exchange) {
         RegisterRequest request = parseRequestBody(exchange, RegisterRequest.class);
         RegisterResponse response = service.register(request);
@@ -24,7 +18,7 @@ public class RegistrationHandler extends DCAbstractHandler {
 
     @Override
     public void handleOptions(HttpExchange exchange) throws IOException {
-        exchange.getResponseHeaders().set("Allow", "GET, POST, OPTIONS");
+        exchange.getResponseHeaders().set("Allow", "POST, OPTIONS");
         exchange.getResponseHeaders().set("Content-Type", "application/json");
 
         defaultHeaders(exchange);
