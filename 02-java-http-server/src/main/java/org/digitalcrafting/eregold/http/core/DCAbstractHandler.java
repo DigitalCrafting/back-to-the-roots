@@ -41,6 +41,18 @@ public abstract class DCAbstractHandler implements DCHandler {
         }
     }
 
+    @Override
+    public void handleOptions(HttpExchange exchange) throws IOException {
+        String methods = availableMethods();
+        exchange.getResponseHeaders().set("Allow", methods);
+        exchange.getResponseHeaders().set("Content-Type", "application/json");
+        defaultHeaders(exchange);
+        exchange.sendResponseHeaders(200, 0);
+        exchange.close();
+    }
+
+    public abstract String availableMethods();
+
     protected void sendStatus(HttpExchange exchange, DCHttpStatus status) {
         defaultHeaders(exchange);
         try {
@@ -78,7 +90,7 @@ public abstract class DCAbstractHandler implements DCHandler {
     protected void defaultHeaders(HttpExchange exchange) {
         exchange.getResponseHeaders().set("Access-Control-Allow-Credentials", "true");
         exchange.getResponseHeaders().set("Access-Control-Allow-Headers", "authorization, content-type");
-        exchange.getResponseHeaders().set("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+        exchange.getResponseHeaders().set("Access-Control-Allow-Methods", availableMethods());
         exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "http://localhost:4200");
         exchange.getResponseHeaders().set("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate");
         exchange.getResponseHeaders().set("Connection", "keep-alive");

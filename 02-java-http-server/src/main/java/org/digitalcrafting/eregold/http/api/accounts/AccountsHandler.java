@@ -7,7 +7,6 @@ import org.digitalcrafting.eregold.http.core.session.DCUserContext;
 import org.digitalcrafting.eregold.http.domain.accounts.AccountDetailsModel;
 import org.digitalcrafting.eregold.http.domain.accounts.AccountModel;
 
-import java.io.IOException;
 import java.util.List;
 
 public class AccountsHandler extends DCAbstractHandler {
@@ -47,13 +46,7 @@ public class AccountsHandler extends DCAbstractHandler {
     }
 
     @Override
-    public void handleOptions(HttpExchange exchange) throws IOException {
-        exchange.getResponseHeaders().set("Allow", "GET, POST, OPTIONS");
-        exchange.getResponseHeaders().set("Content-Type", "application/json");
-
-        defaultHeaders(exchange);
-
-        exchange.sendResponseHeaders(200, 0);
-        exchange.close();
+    public String availableMethods() {
+        return "GET, POST, OPTIONS";
     }
 }

@@ -15,7 +15,6 @@ import org.digitalcrafting.eregold.http.repository.customers.CustomersEntityMana
 import org.digitalcrafting.eregold.http.repository.users.UserEntity;
 import org.digitalcrafting.eregold.http.repository.users.UsersEntityManager;
 
-import java.io.IOException;
 import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
@@ -60,14 +59,9 @@ public class LoginHandler extends DCAbstractHandler {
         sendStatus(exchange, DCHttpStatus.NOT_FOUND);
     }
 
+
     @Override
-    public void handleOptions(HttpExchange exchange) throws IOException {
-        exchange.getResponseHeaders().set("Allow", "POST, OPTIONS");
-        exchange.getResponseHeaders().set("Content-Type", "application/json");
-
-        defaultHeaders(exchange);
-
-        exchange.sendResponseHeaders(200, 0);
-        exchange.close();
+    public String availableMethods() {
+        return "POST, OPTIONS";
     }
 }

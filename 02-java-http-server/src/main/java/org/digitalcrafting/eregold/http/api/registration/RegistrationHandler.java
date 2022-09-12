@@ -4,8 +4,6 @@ import com.sun.net.httpserver.HttpExchange;
 import org.digitalcrafting.eregold.http.core.DCAbstractHandler;
 import org.digitalcrafting.eregold.http.core.consts.DCHttpStatus;
 
-import java.io.IOException;
-
 public class RegistrationHandler extends DCAbstractHandler {
     private final RegistrationService service = new RegistrationService();
 
@@ -17,13 +15,7 @@ public class RegistrationHandler extends DCAbstractHandler {
     }
 
     @Override
-    public void handleOptions(HttpExchange exchange) throws IOException {
-        exchange.getResponseHeaders().set("Allow", "POST, OPTIONS");
-        exchange.getResponseHeaders().set("Content-Type", "application/json");
-
-        defaultHeaders(exchange);
-
-        exchange.sendResponseHeaders(200, 0);
-        exchange.close();
+    public String availableMethods() {
+        return "POST, OPTIONS";
     }
 }
